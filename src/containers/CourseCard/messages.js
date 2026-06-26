@@ -21,6 +21,21 @@ const messages = defineMessages({
     description: 'Course card verified banner ribbon alt-text',
     defaultMessage: 'ID Verified Ribbon/Badge',
   },
+  expandCard: {
+    id: 'learner-dash.courseCard.expandCard',
+    description: 'Accessible label for the triangle that expands a minimized completed course card',
+    defaultMessage: 'Expand course',
+  },
+  collapseCard: {
+    id: 'learner-dash.courseCard.collapseCard',
+    description: 'Accessible label for the triangle that collapses a completed course card into a single row',
+    defaultMessage: 'Minimize course',
+  },
+  certReadyForCourse: {
+    id: 'learner-dash.courseCard.certReadyForCourse',
+    description: 'Certificate-ready message shown on a minimized completed course row, naming the course',
+    defaultMessage: 'Congratulations.  Your certificate for {courseName} is ready.',
+  },
 });
 
 export default messages;

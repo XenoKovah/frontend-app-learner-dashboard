@@ -132,7 +132,13 @@ export const courseCard = StrictDict({
   ),
   gradeData: mkCardSelector(
     cardSimpleSelectors.gradeData,
-    (gradeData) => ({ isPassing: gradeData.isPassing }),
+    (gradeData) => ({
+      isPassing: gradeData.isPassing,
+      // percentGraded is the learner's current grade as a 0-1 fraction from the
+      // learner_home BFF (null when no grade has been persisted yet). Convert to
+      // an integer percent, flooring to avoid ever overstating the grade.
+      percentGraded: Math.floor((gradeData.percentGraded || 0) * 100),
+    }),
   ),
   relatedPrograms: mkCardSelector(
     cardSimpleSelectors.relatedPrograms,

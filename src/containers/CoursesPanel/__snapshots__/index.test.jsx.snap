@@ -1,55 +1,60 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CoursesPanel no courses snapshot 1`] = `
-<div
-  className="course-list-container"
->
+<MinimizeProvider>
   <div
-    className="course-list-heading-container"
+    className="course-list-container"
   >
-    <h2
-      className="course-list-title"
-    >
-      My Courses
-    </h2>
     <div
-      className="course-filter-controls-container"
+      className="course-list-heading-container"
     >
-      <CourseFilterControls />
+      <h2
+        className="course-list-title"
+      >
+        My Courses
+      </h2>
+      <div
+        className="course-filter-controls-container"
+      >
+        <CourseFilterControls />
+      </div>
     </div>
+    <NoCoursesViewSlot />
   </div>
-  <NoCoursesViewSlot />
-</div>
+</MinimizeProvider>
 `;
 
 exports[`CoursesPanel with courses snapshot 1`] = `
-<div
-  className="course-list-container"
->
+<MinimizeProvider>
   <div
-    className="course-list-heading-container"
+    className="course-list-container"
   >
-    <h2
-      className="course-list-title"
-    >
-      My Courses
-    </h2>
     <div
-      className="course-filter-controls-container"
+      className="course-list-heading-container"
     >
-      <CourseFilterControls />
+      <h2
+        className="course-list-title"
+      >
+        My Courses
+      </h2>
+      <div
+        className="course-filter-controls-container"
+      >
+        <CourseFilterControls />
+      </div>
     </div>
-  </div>
-  <CourseListSlot
-    courseListData={
-      {
-        "filterOptions": {},
-        "numPages": 1,
-        "setPageNumber": [MockFunction setPageNumber],
-        "showFilters": false,
-        "visibleList": [],
+    <MinimizeCompletedControl />
+    <CourseListSlot
+      courseListData={
+        {
+          "filterOptions": {},
+          "numPages": 1,
+          "setPageNumber": [MockFunction setPageNumber],
+          "showFilters": false,
+          "visibleList": [],
+        }
       }
-    }
-  />
-</div>
+    />
+  </div>
+</MinimizeProvider>
 `;

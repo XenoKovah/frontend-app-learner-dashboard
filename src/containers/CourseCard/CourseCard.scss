@@ -49,6 +49,32 @@
     }
   }
 
+  // OST2: completed-course minimize/collapse
+  &.course-card-completed {
+    .course-card-minimize-toggle {
+      margin-top: map-get($spacers, 2);
+    }
+
+    // allow the inner card/banner to shrink inside the flex row (avoids overflow)
+    .course-card-completed-body {
+      min-width: 0;
+    }
+
+    &.is-minimized {
+      .course-card-minimize-toggle {
+        margin-top: 0;
+      }
+
+      // Halve the vertical padding (above/below the certificate line) of the
+      // collapsed row so the minimized card is more compact. Paragon's alert
+      // padding is map-get($spacers, 4) (1.5rem); this makes it 0.75rem.
+      .alert {
+        padding-top: map-get($spacers, 4) * 0.5;
+        padding-bottom: map-get($spacers, 4) * 0.5;
+      }
+    }
+  }
+
   .course-card-banners {
     > .alert {
       border-radius: 0;

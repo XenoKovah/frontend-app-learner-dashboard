@@ -33,8 +33,8 @@ const messages = defineMessages({
   },
   passingGrade: {
     id: 'learner-dash.courseCard.banners.passingGrade',
-    description: 'Message to learners with minimum passing grade for the course',
-    defaultMessage: 'Grade required to pass the course: {minPassingGrade}\u200f%',
+    description: 'Message to learners with minimum passing grade for the course and their current grade',
+    defaultMessage: 'Grade required to pass the course: {minPassingGrade}\u200f%. Your current grade is {currentGrade}\u200f%',
   },
   notEligibleForCert: {
     id: 'learner-dash.courseCard.banners.notEligibleForCert',
@@ -58,8 +58,8 @@ const messages = defineMessages({
   },
   certMinGrade: {
     id: 'learner-dash.courseCard.banners.certMinGrade',
-    description: 'Passing grade requirement message',
-    defaultMessage: 'Grade required for a certificate: {minPassingGrade}\u200f%',
+    description: 'Passing grade requirement message with the learner current grade',
+    defaultMessage: 'Grade required for a certificate: {minPassingGrade}\u200f%. Your current grade is {currentGrade}\u200f%',
   },
   downloadCertificate: {
     id: 'learner-dash.courseCard.banners.downloadCertificate',

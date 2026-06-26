@@ -27,12 +27,39 @@ export const courseFilterFn = filters => (filters.length
   ? course => filters.reduce((match, filter) => match && courseFilters[filter](course), true)
   : () => true);
 
+// OST2: a course counts as "completed" once its certificate is ready to view /
+// download -- the same signal the dashboard uses to collapse the card.
+export const isCompleted = (course) => Boolean(
+  course.certificate && course.certificate.isDownloadable,
+);
+
+// OST2: the learner's current grade as a fraction in [0, 1]; 0 when no grade has
+// been recorded yet (used to order incomplete courses by descending completion).
+export const gradePercent = (course) => (
+  course.gradeData && typeof course.gradeData.percentGraded === 'number'
+    ? course.gradeData.percentGraded
+    : 0
+);
+
 export const currentList = (allCourses, {
-  sortBy,
   filters,
-}) => allCourses
-  .filter(module.courseFilterFn(filters))
-  .sort(module.sortFn(transforms[sortBy], { reverse: sortBy === SortKeys.enrolled }));
+}) => {
+  const titleSort = module.sortFn(transforms[SortKeys.title], { reverse: false });
+  return allCourses
+    .filter(module.courseFilterFn(filters))
+    .sort((a, b) => {
+      // Completed courses always sink below incomplete ones,
+      const [aDone, bDone] = [module.isCompleted(a), module.isCompleted(b)];
+      if (aDone !== bDone) { return aDone ? 1 : -1; }
+      // completed courses are ordered alphabetically by title (A->Z),
+      if (aDone) { return titleSort(a, b); }
+      // incomplete courses are ordered by descending current grade,
+      const gradeDiff = module.gradePercent(b) - module.gradePercent(a);
+      if (gradeDiff !== 0) { return gradeDiff; }
+      // with ties broken alphabetically by title.
+      return titleSort(a, b);
+    });
+};
 
 export const visibleList = (state, {
   sortBy,

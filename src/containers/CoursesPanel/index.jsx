@@ -10,6 +10,8 @@ import CourseListSlot from 'plugin-slots/CourseListSlot';
 import NoCoursesViewSlot from 'plugin-slots/NoCoursesViewSlot';
 
 import { useCourseListData } from './hooks';
+import { MinimizeProvider } from './MinimizeContext';
+import MinimizeCompletedControl from './MinimizeCompletedControl';
 
 import messages from './messages';
 
@@ -25,15 +27,18 @@ export const CoursesPanel = () => {
   const hasCourses = reduxHooks.useHasCourses();
   const courseListData = useCourseListData();
   return (
-    <div className="course-list-container">
-      <div className="course-list-heading-container">
-        <h2 className="course-list-title">{formatMessage(messages.myCourses)}</h2>
-        <div className="course-filter-controls-container">
-          <CourseFilterControls {...courseListData.filterOptions} />
+    <MinimizeProvider>
+      <div className="course-list-container">
+        <div className="course-list-heading-container">
+          <h2 className="course-list-title">{formatMessage(messages.myCourses)}</h2>
+          <div className="course-filter-controls-container">
+            <CourseFilterControls {...courseListData.filterOptions} />
+          </div>
         </div>
+        {hasCourses && <MinimizeCompletedControl />}
+        {hasCourses ? <CourseListSlot courseListData={courseListData} /> : <NoCoursesViewSlot />}
       </div>
-      {hasCourses ? <CourseListSlot courseListData={courseListData} /> : <NoCoursesViewSlot />}
-    </div>
+    </MinimizeProvider>
   );
 };
 

@@ -6,6 +6,11 @@ const messages = defineMessages({
     defaultMessage: 'My Courses',
     description: 'Course list heading',
   },
+  minimizeCompletedCourses: {
+    id: 'dashboard.minimizeCompletedCourses',
+    defaultMessage: 'Minimize completed courses',
+    description: 'Label for the checkbox that collapses completed (certificate-ready) course cards into a single row',
+  },
 });
 
 export default messages;

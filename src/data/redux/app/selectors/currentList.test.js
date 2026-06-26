@@ -98,7 +98,7 @@ describe('courseList selector module', () => {
       });
     });
     describe('currentList selector', () => {
-      it('returns passed courses filtered and sorted', () => {
+      it('filters courses and orders incomplete ones (completed sink, mocked sort)', () => {
         const sortSpy = jest.spyOn(module, moduleKeys.sortFn);
         const filterSpy = jest.spyOn(module, moduleKeys.courseFilterFn);
         filterSpy.mockReturnValue(({ val }) => val > 0);
@@ -119,25 +119,44 @@ describe('courseList selector module', () => {
           v2,
           v3,
         } = testCourses;
-        let sortBy = SortKeys.enrolled;
         const testFilters = [1, 2, 3];
+        // No certificate/grade on the fixtures, so all are incomplete and tie on
+        // grade (0), falling through to the (mocked) title sort by `val`.
         expect(currentList(
           [empty, v2, v1, empty, empty, v3, empty],
-          { sortBy, filters: testFilters },
+          { filters: testFilters },
         )).toEqual([v1, v2, v3]);
-        expect(sortSpy).toHaveBeenCalledWith(transforms[sortBy], { reverse: true });
-        expect(filterSpy).toHaveBeenCalledWith(testFilters);
-
-        sortSpy.mockClear();
-        sortBy = SortKeys.title;
-        expect(currentList(
-          [empty, v2, v1, empty, empty, v3, empty],
-          { sortBy, filters: testFilters },
-        )).toEqual([v1, v2, v3]);
-        expect(sortSpy).toHaveBeenCalledWith(transforms[sortBy], { reverse: false });
+        expect(sortSpy).toHaveBeenCalledWith(transforms[SortKeys.title], { reverse: false });
         expect(filterSpy).toHaveBeenCalledWith(testFilters);
         sortSpy.mockRestore();
         filterSpy.mockRestore();
+      });
+      it('orders incomplete by descending grade then title, completed last alphabetically', () => {
+        const mk = (courseName, isDownloadable, percentGraded) => ({
+          course: { courseName },
+          certificate: isDownloadable ? { isDownloadable: true } : null,
+          gradeData: { percentGraded },
+        });
+        const incLow = mk('Bluetooth 2222', false, 0.11);
+        const incHigh = mk('Debuggers 1011', false, 0.94);
+        const incTieBluetooth = mk('Bluetooth 1111', false, 0.5);
+        const incTieArch = mk('Arch 1111', false, 0.5);
+        const doneFuzz = mk('Fuzzing 1001', true, 1);
+        const doneArch = mk('Architecture 1001', true, 1);
+        expect(currentList(
+          [incLow, doneFuzz, incTieBluetooth, incHigh, doneArch, incTieArch],
+          { filters: [] },
+        )).toEqual([
+          // incomplete first, by descending current grade...
+          incHigh, // 94%
+          // ...ties (50%) broken alphabetically by title
+          incTieArch, // 'Arch 1111'
+          incTieBluetooth, // 'Bluetooth 1111'
+          incLow, // 11%
+          // then completed, alphabetical by title (A->Z)
+          doneArch, // 'Architecture 1001'
+          doneFuzz, // 'Fuzzing 1001'
+        ]);
       });
     });
   });
