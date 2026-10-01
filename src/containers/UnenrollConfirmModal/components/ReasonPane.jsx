@@ -16,26 +16,26 @@ export const ReasonPane = ({
 }) => {
   const { formatMessage } = useIntl();
   const option = (key) => (
-    <Form.Radio key={key} value={key}>
+    <Form.Checkbox key={key} value={key}>
       {formatMessage(constants.messages[key])}
-    </Form.Radio>
+    </Form.Checkbox>
   );
   return (
     <>
       <h4>{formatMessage(messages.reasonHeading)}</h4>
-      <Form.RadioSet
+      <Form.CheckboxSet
         name="unenrollReason"
         onChange={reason.selectOption}
         value={reason.selected}
       >
         {constants.order.map(option)}
-        <Form.Radio value={constants.reasonKeys.custom}>
+        <Form.Checkbox value={constants.reasonKeys.custom}>
           <Form.Control
             {...reason.customOption}
             placeholder={formatMessage(constants.messages.customPlaceholder)}
           />
-        </Form.Radio>
-      </Form.RadioSet>
+        </Form.Checkbox>
+      </Form.CheckboxSet>
       <ActionRow>
         <Button variant="tertiary" onClick={reason.handleSkip}>
           {formatMessage(messages.reasonSkip)}
@@ -57,7 +57,7 @@ ReasonPane.propTypes = {
       value: PropTypes.string,
       onChange: PropTypes.func,
     }),
-    selected: PropTypes.string,
+    selected: PropTypes.arrayOf(PropTypes.string),
     handleSubmit: PropTypes.func.isRequired,
   }).isRequired,
 };

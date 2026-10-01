@@ -3,6 +3,7 @@ import { StrictDict } from 'utils';
 import { defineMessages } from '@edx/frontend-platform/i18n';
 
 export const reasonKeys = StrictDict({
+  zeroCompletion: 'zeroCompletion',
   prereqs: 'prereqs',
   difficulty: 'difficulty',
   goals: 'goals',
@@ -16,6 +17,7 @@ export const reasonKeys = StrictDict({
 });
 
 export const order = [
+  reasonKeys.zeroCompletion,
   reasonKeys.prereqs,
   reasonKeys.difficulty,
   reasonKeys.goals,
@@ -28,6 +30,11 @@ export const order = [
 ];
 
 const messages = defineMessages({
+  [reasonKeys.zeroCompletion]: {
+    id: 'learner-dash.unenrollConfirm.reasons.zeroCompletion',
+    description: 'Unenroll reason option - freeing a slot by leaving a class with no progress',
+    defaultMessage: 'I needed to unenroll from a 0%-completion class to register for new classes',
+  },
   [reasonKeys.prereqs]: {
     id: 'learner-dash.unenrollConfirm.reasons.prereqs',
     description: 'Unenroll reason option - missing prerequisites',
