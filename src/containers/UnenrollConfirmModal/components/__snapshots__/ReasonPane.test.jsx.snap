@@ -51,6 +51,12 @@ exports[`UnenrollConfirmModal ReasonPane snapshot 1`] = `
       The course material was too hard
     </Form.Checkbox>
     <Form.Checkbox
+      key="quality"
+      value="quality"
+    >
+      I'm not happy with the quality of the content
+    </Form.Checkbox>
+    <Form.Checkbox
       key="goals"
       value="goals"
     >
@@ -138,6 +144,12 @@ exports[`UnenrollConfirmModal ReasonPane snapshot: no reason provided 1`] = `
       value="difficulty"
     >
       The course material was too hard
+    </Form.Checkbox>
+    <Form.Checkbox
+      key="quality"
+      value="quality"
+    >
+      I'm not happy with the quality of the content
     </Form.Checkbox>
     <Form.Checkbox
       key="goals"

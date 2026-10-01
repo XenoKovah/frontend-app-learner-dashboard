@@ -10,6 +10,7 @@ export const reasonKeys = StrictDict({
   time: 'time',
   browse: 'browse',
   support: 'support',
+  quality: 'quality',
   easy: 'easy',
   custom: 'custom',
 });
@@ -21,6 +22,7 @@ export const order = [
   reasonKeys.broken,
   reasonKeys.easy,
   reasonKeys.difficulty,
+  reasonKeys.quality,
   reasonKeys.goals,
   reasonKeys.support,
 ];
@@ -65,6 +67,11 @@ const messages = defineMessages({
     id: 'learner-dash.unenrollConfirm.reasons.easy',
     description: 'Unenroll reason option - too easy',
     defaultMessage: 'The course material was too easy',
+  },
+  [reasonKeys.quality]: {
+    id: 'learner-dash.unenrollConfirm.reasons.quality',
+    description: 'Unenroll reason option - quality-related',
+    defaultMessage: `I'm not happy with the quality of the content`,
   },
   customPlaceholder: {
     id: 'learner-dash.unenrollConfirm.reasons.custom-placeholder',

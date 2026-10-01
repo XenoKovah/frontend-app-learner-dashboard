@@ -9,6 +9,7 @@ describe('UnenrollConfirmModal constants', () => {
       'Something was broken',
       'The course material was too easy',
       'The course material was too hard',
+      "I'm not happy with the quality of the content",
       "This course isn't aligned with my goals",
       "I don't have enough support",
     ]);
@@ -18,7 +19,7 @@ describe('UnenrollConfirmModal constants', () => {
     order.forEach((key) => expect(constants.messages[key]).toBeDefined());
     expect(order).not.toContain(reasonKeys.custom);
   });
-  it('has no leftover keys for options that were removed', () => {
+  it('has a key for every ordered option and nothing else', () => {
     expect(Object.keys(reasonKeys).sort()).toEqual([...order, reasonKeys.custom].sort());
   });
 });
