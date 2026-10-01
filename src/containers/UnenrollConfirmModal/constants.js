@@ -4,29 +4,25 @@ import { defineMessages } from '@edx/frontend-platform/i18n';
 
 export const reasonKeys = StrictDict({
   zeroCompletion: 'zeroCompletion',
-  prereqs: 'prereqs',
   difficulty: 'difficulty',
   goals: 'goals',
   broken: 'broken',
   time: 'time',
   browse: 'browse',
   support: 'support',
-  quality: 'quality',
   easy: 'easy',
   custom: 'custom',
 });
 
 export const order = [
   reasonKeys.zeroCompletion,
-  reasonKeys.prereqs,
-  reasonKeys.difficulty,
-  reasonKeys.goals,
-  reasonKeys.broken,
   reasonKeys.time,
   reasonKeys.browse,
-  reasonKeys.support,
-  reasonKeys.quality,
+  reasonKeys.broken,
   reasonKeys.easy,
+  reasonKeys.difficulty,
+  reasonKeys.goals,
+  reasonKeys.support,
 ];
 
 const messages = defineMessages({
@@ -34,11 +30,6 @@ const messages = defineMessages({
     id: 'learner-dash.unenrollConfirm.reasons.zeroCompletion',
     description: 'Unenroll reason option - freeing a slot by leaving a class with no progress',
     defaultMessage: 'I needed to unenroll from a 0%-completion class to register for new classes',
-  },
-  [reasonKeys.prereqs]: {
-    id: 'learner-dash.unenrollConfirm.reasons.prereqs',
-    description: 'Unenroll reason option - missing prerequisites',
-    defaultMessage: `I don't have the academic or language prerequisites`,
   },
   [reasonKeys.difficulty]: {
     id: 'learner-dash.unenrollConfirm.reasons.difficulty',
@@ -48,7 +39,7 @@ const messages = defineMessages({
   [reasonKeys.goals]: {
     id: 'learner-dash.unenrollConfirm.reasons.goals',
     description: 'Unenroll reason option - goals-related',
-    defaultMessage: `This won't help me reach my goals`,
+    defaultMessage: `This course isn't aligned with my goals`,
   },
   [reasonKeys.broken]: {
     id: 'learner-dash.unenrollConfirm.reasons.broken',
@@ -63,17 +54,12 @@ const messages = defineMessages({
   [reasonKeys.browse]: {
     id: 'learner-dash.unenrollConfirm.reasons.browse',
     description: 'Unenroll reason option - wanted to browse',
-    defaultMessage: 'I just wanted to browse the material',
+    defaultMessage: `I just wanted to browse the material (but I didn't know I don't need to enroll to browse, but I do now!)`,
   },
   [reasonKeys.support]: {
     id: 'learner-dash.unenrollConfirm.reasons.support',
     description: 'Unenroll reason option - lacking support',
     defaultMessage: `I don't have enough support`,
-  },
-  [reasonKeys.quality]: {
-    id: 'learner-dash.unenrollConfirm.reasons.quality',
-    description: 'Unenroll reason option - quality-related',
-    defaultMessage: 'I am not happy with the quality of the content',
   },
   [reasonKeys.easy]: {
     id: 'learner-dash.unenrollConfirm.reasons.easy',

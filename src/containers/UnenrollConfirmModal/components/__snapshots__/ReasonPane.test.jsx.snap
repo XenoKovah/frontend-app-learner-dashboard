@@ -21,10 +21,28 @@ exports[`UnenrollConfirmModal ReasonPane snapshot 1`] = `
       I needed to unenroll from a 0%-completion class to register for new classes
     </Form.Checkbox>
     <Form.Checkbox
-      key="prereqs"
-      value="prereqs"
+      key="time"
+      value="time"
     >
-      I don't have the academic or language prerequisites
+      I don't have the time
+    </Form.Checkbox>
+    <Form.Checkbox
+      key="browse"
+      value="browse"
+    >
+      I just wanted to browse the material (but I didn't know I don't need to enroll to browse, but I do now!)
+    </Form.Checkbox>
+    <Form.Checkbox
+      key="broken"
+      value="broken"
+    >
+      Something was broken
+    </Form.Checkbox>
+    <Form.Checkbox
+      key="easy"
+      value="easy"
+    >
+      The course material was too easy
     </Form.Checkbox>
     <Form.Checkbox
       key="difficulty"
@@ -36,43 +54,13 @@ exports[`UnenrollConfirmModal ReasonPane snapshot 1`] = `
       key="goals"
       value="goals"
     >
-      This won't help me reach my goals
-    </Form.Checkbox>
-    <Form.Checkbox
-      key="broken"
-      value="broken"
-    >
-      Something was broken
-    </Form.Checkbox>
-    <Form.Checkbox
-      key="time"
-      value="time"
-    >
-      I don't have the time
-    </Form.Checkbox>
-    <Form.Checkbox
-      key="browse"
-      value="browse"
-    >
-      I just wanted to browse the material
+      This course isn't aligned with my goals
     </Form.Checkbox>
     <Form.Checkbox
       key="support"
       value="support"
     >
       I don't have enough support
-    </Form.Checkbox>
-    <Form.Checkbox
-      key="quality"
-      value="quality"
-    >
-      I am not happy with the quality of the content
-    </Form.Checkbox>
-    <Form.Checkbox
-      key="easy"
-      value="easy"
-    >
-      The course material was too easy
     </Form.Checkbox>
     <Form.Checkbox
       value="custom"
@@ -122,10 +110,28 @@ exports[`UnenrollConfirmModal ReasonPane snapshot: no reason provided 1`] = `
       I needed to unenroll from a 0%-completion class to register for new classes
     </Form.Checkbox>
     <Form.Checkbox
-      key="prereqs"
-      value="prereqs"
+      key="time"
+      value="time"
     >
-      I don't have the academic or language prerequisites
+      I don't have the time
+    </Form.Checkbox>
+    <Form.Checkbox
+      key="browse"
+      value="browse"
+    >
+      I just wanted to browse the material (but I didn't know I don't need to enroll to browse, but I do now!)
+    </Form.Checkbox>
+    <Form.Checkbox
+      key="broken"
+      value="broken"
+    >
+      Something was broken
+    </Form.Checkbox>
+    <Form.Checkbox
+      key="easy"
+      value="easy"
+    >
+      The course material was too easy
     </Form.Checkbox>
     <Form.Checkbox
       key="difficulty"
@@ -137,43 +143,13 @@ exports[`UnenrollConfirmModal ReasonPane snapshot: no reason provided 1`] = `
       key="goals"
       value="goals"
     >
-      This won't help me reach my goals
-    </Form.Checkbox>
-    <Form.Checkbox
-      key="broken"
-      value="broken"
-    >
-      Something was broken
-    </Form.Checkbox>
-    <Form.Checkbox
-      key="time"
-      value="time"
-    >
-      I don't have the time
-    </Form.Checkbox>
-    <Form.Checkbox
-      key="browse"
-      value="browse"
-    >
-      I just wanted to browse the material
+      This course isn't aligned with my goals
     </Form.Checkbox>
     <Form.Checkbox
       key="support"
       value="support"
     >
       I don't have enough support
-    </Form.Checkbox>
-    <Form.Checkbox
-      key="quality"
-      value="quality"
-    >
-      I am not happy with the quality of the content
-    </Form.Checkbox>
-    <Form.Checkbox
-      key="easy"
-      value="easy"
-    >
-      The course material was too easy
     </Form.Checkbox>
     <Form.Checkbox
       value="custom"
