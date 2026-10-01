@@ -37,7 +37,7 @@ describe('CertificateBanner', () => {
     isVerified: false,
   };
   const defaultCourseRun = { isArchived: false };
-  const defaultGrade = { isPassing: false };
+  const defaultGrade = { isPassing: false, percentGraded: 42 };
   const defaultPlatformSettings = {};
   const createWrapper = ({
     certificate = {},

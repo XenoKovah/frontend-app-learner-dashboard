@@ -348,6 +348,19 @@ describe('courseCard selectors module', () => {
       it('passes isPassing', () => {
         expect(selected.isPassing).toEqual(testData.isPassing);
       });
+      describe('percentGraded', () => {
+        it.each([
+          [0.947, 94],
+          [0.5, 50],
+          [1, 100],
+          [0, 0],
+          [null, 0],
+          [undefined, 0],
+        ])('floors the 0-1 fraction %s to the integer percent %s', (fraction, percent) => {
+          loadSelector(courseCard.gradeData, { isPassing: false, percentGraded: fraction });
+          expect(selected.percentGraded).toEqual(percent);
+        });
+      });
     });
     describe('relatedPrograms selector', () => {
       beforeEach(() => {

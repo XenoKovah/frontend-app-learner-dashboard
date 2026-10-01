@@ -48,7 +48,7 @@ const messages = defineMessages({
   },
   course: {
     id: 'learnerVariantDashboard.course',
-    defaultMessage: 'Courses',
+    defaultMessage: 'My Enrolled Courses',
     description: 'Header link for switching to dashboard page.',
   },
   program: {
@@ -58,7 +58,7 @@ const messages = defineMessages({
   },
   discoverNew: {
     id: 'learnerVariantDashboard.discoverNew',
-    defaultMessage: 'Discover New',
+    defaultMessage: 'Discover New Courses',
     description: 'Header link for switching to discover page.',
   },
   logoAltText: {

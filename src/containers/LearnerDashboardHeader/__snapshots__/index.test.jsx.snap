@@ -7,13 +7,13 @@ exports[`LearnerDashboardHeader render 1`] = `
     mainMenuItems={
       [
         {
-          "content": "Courses",
+          "content": "My Enrolled Courses",
           "href": "/",
           "isActive": true,
           "type": "item",
         },
         {
-          "content": "Discover New",
+          "content": "Discover New Courses",
           "href": "http://localhost:18000/course-search-url",
           "onClick": [Function],
           "type": "item",

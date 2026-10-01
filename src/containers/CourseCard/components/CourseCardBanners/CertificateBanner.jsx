@@ -19,7 +19,7 @@ export const CertificateBanner = ({ cardId }) => {
     isAudit,
     isVerified,
   } = reduxHooks.useCardEnrollmentData(cardId);
-  const { isPassing } = reduxHooks.useCardGradeData(cardId);
+  const { isPassing, percentGraded } = reduxHooks.useCardGradeData(cardId);
   const { isArchived } = reduxHooks.useCardCourseRunData(cardId);
   const { minPassingGrade, progressUrl } = reduxHooks.useCardCourseRunData(cardId);
   const { supportEmail, billingEmail } = reduxHooks.usePlatformSettingsData();
@@ -56,7 +56,7 @@ export const CertificateBanner = ({ cardId }) => {
     if (isAudit) {
       return (
         <Banner>
-          {formatMessage(messages.passingGrade, { minPassingGrade })}
+          {formatMessage(messages.passingGrade, { minPassingGrade, currentGrade: percentGraded })}
         </Banner>
       );
     }
@@ -71,7 +71,7 @@ export const CertificateBanner = ({ cardId }) => {
     }
     return (
       <Banner variant="warning">
-        {formatMessage(messages.certMinGrade, { minPassingGrade })}
+        {formatMessage(messages.certMinGrade, { minPassingGrade, currentGrade: percentGraded })}
       </Banner>
     );
   }
