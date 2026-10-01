@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppContext } from '@edx/frontend-platform/react';
+import { logError } from '@edx/frontend-platform/logging';
 import { keyStore } from 'utils';
 import { RequestKeys } from 'data/constants/requests';
 import { post } from 'data/services/lms/utils';
@@ -10,6 +11,9 @@ import * as apiHooks from './api';
 
 const reduxKeys = keyStore(reduxHooks);
 
+jest.mock('@edx/frontend-platform/logging', () => ({
+  logError: jest.fn(),
+}));
 jest.mock('data/services/lms/utils', () => ({
   post: jest.fn((...args) => ({ post: args })),
 }));
@@ -17,6 +21,7 @@ jest.mock('data/services/lms/api', () => ({
   initializeList: jest.fn(),
   updateEntitlementEnrollment: jest.fn(),
   unenrollFromCourse: jest.fn(),
+  logUnenrollReasons: jest.fn(),
   deleteEntitlementEnrollment: jest.fn(),
   updateEmailSettings: jest.fn(),
   createCreditRequest: jest.fn(),
@@ -178,6 +183,32 @@ describe('api hooks', () => {
       it('calls unenrollFromCourse api method with courseId', () => {
         hook.action();
         expect(api.unenrollFromCourse).toHaveBeenCalledWith({ courseId });
+      });
+    });
+
+    describe('useLogUnenrollReasons', () => {
+      const reasons = [{ key: 'time', label: 'test-label' }];
+      const other = 'test-other';
+      beforeEach(() => {
+        reduxHooks.useCardEntitlementData.mockReturnValue({ isEntitlement: true });
+        hook = apiHooks.useLogUnenrollReasons(cardId);
+      });
+      testInitCardHook(reduxKeys.useCardCourseRunData);
+      testInitCardHook(reduxKeys.useCardEntitlementData);
+      it('calls logUnenrollReasons api method with course, answers and entitlement flag', async () => {
+        api.logUnenrollReasons.mockResolvedValueOnce();
+        await hook({ reasons, other });
+        expect(api.logUnenrollReasons).toHaveBeenCalledWith({
+          courseId,
+          reasons,
+          other,
+          isEntitlement: true,
+        });
+      });
+      it('swallows api failures so the unenrollment is never blocked', async () => {
+        api.logUnenrollReasons.mockRejectedValueOnce(new Error('network down'));
+        await expect(hook({ reasons, other })).resolves.toBeUndefined();
+        expect(logError).toHaveBeenCalledWith(new Error('network down'));
       });
     });
 

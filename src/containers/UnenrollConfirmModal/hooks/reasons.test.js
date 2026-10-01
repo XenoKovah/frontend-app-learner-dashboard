@@ -10,6 +10,7 @@ import * as hooks from './reasons';
 jest.mock('hooks', () => ({
   apiHooks: {
     useUnenrollFromCourse: jest.fn((...args) => ({ unenrollFromCourse: args })),
+    useLogUnenrollReasons: jest.fn(),
   },
   reduxHooks: {
     useCardEntitlementData: jest.fn(),
@@ -22,7 +23,9 @@ const testValue = 'test-value';
 const testValue2 = 'test-value2';
 const unenrollFromCourse = jest.fn((...args) => ({ unenrollFromCourse: args }));
 const trackCourseEvent = jest.fn((e) => ({ courseEvent: e }));
+const logReasons = jest.fn();
 apiHooks.useUnenrollFromCourse.mockReturnValue(unenrollFromCourse);
+apiHooks.useLogUnenrollReasons.mockReturnValue(logReasons);
 reduxHooks.useTrackCourseEvent.mockReturnValue(trackCourseEvent);
 let out;
 
@@ -172,8 +175,35 @@ describe('UnenrollConfirmModal reasons hooks', () => {
         expect(unenrollFromCourse).toHaveBeenCalledWith();
       });
       describe('handleSubmit', () => {
+        it('logs the checked options, with labels, and the trimmed other text', () => {
+          state.mockVal(state.keys.selectedReasons, ['time', 'zeroCompletion', 'custom']);
+          state.mockVal(state.keys.customOption, ` ${testValue} `);
+          loadHook();
+          out.handleSubmit({});
+          expect(apiHooks.useLogUnenrollReasons).toHaveBeenCalledWith(cardId);
+          expect(logReasons).toHaveBeenCalledWith({
+            reasons: [
+              { key: 'time', label: "I don't have the time" },
+              {
+                key: 'zeroCompletion',
+                label: 'I needed to unenroll from a 0%-completion class to register for new classes',
+              },
+            ],
+            other: testValue,
+          });
+        });
+        it('logs an empty other text when the custom option is not checked', () => {
+          state.mockVal(state.keys.selectedReasons, ['time']);
+          state.mockVal(state.keys.customOption, testValue);
+          loadHook();
+          out.handleSubmit({});
+          expect(logReasons).toHaveBeenCalledWith({
+            reasons: [{ key: 'time', label: "I don't have the time" }],
+            other: '',
+          });
+        });
         it('tracks reason event and calls unenroll action', () => {
-          state.mockVal(state.keys.selectedReasons, [testValue]);
+          state.mockVal(state.keys.selectedReasons, ['time']);
           loadHook();
           expect(trackCourseEvent).not.toHaveBeenCalled();
           const event = { test: 'event' };

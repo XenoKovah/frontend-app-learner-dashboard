@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { AppContext } from '@edx/frontend-platform/react';
+import { logError } from '@edx/frontend-platform/logging';
 
 import { RequestKeys } from 'data/constants/requests';
 import { post } from 'data/services/lms/utils';
@@ -65,6 +66,23 @@ export const useUnenrollFromCourse = (cardId) => {
     () => api.unenrollFromCourse({ courseId }),
     { requestKey: RequestKeys.unenrollFromCourse },
   );
+};
+
+/**
+ * Returns a callback that records the unenroll survey answers in the LMS tracking log.
+ * Fire-and-forget: a failure is logged and never blocks the unenrollment itself.
+ */
+export const useLogUnenrollReasons = (cardId) => {
+  const { courseId } = reduxHooks.useCardCourseRunData(cardId);
+  const { isEntitlement } = reduxHooks.useCardEntitlementData(cardId);
+  return ({ reasons, other }) => Promise.resolve(
+    api.logUnenrollReasons({
+      courseId,
+      reasons,
+      other,
+      isEntitlement,
+    }),
+  ).catch(logError);
 };
 
 export const useMasqueradeAs = () => {
