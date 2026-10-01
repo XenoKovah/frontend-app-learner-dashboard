@@ -60,6 +60,30 @@ export const logShare = ({ courseId, site }) => module.logEvent({
   },
 });
 
+/**
+ * Records the learner's unenroll survey answers in the LMS tracking log (via /event) so they can
+ * be reported on; the Segment tracker alone goes nowhere when no SEGMENT_KEY is configured.
+ * @param {string} courseId - course run identifier
+ * @param {{key: string, label: string}[]} reasons - checked predefined options
+ * @param {string} other - free text from the "Other" option ('' if not used)
+ * @param {bool} isEntitlement - is the course an entitlement course?
+ */
+export const logUnenrollReasons = ({
+  courseId,
+  reasons,
+  other,
+  isEntitlement,
+}) => module.logEvent({
+  eventName: isEntitlement ? eventNames.entitlementUnenrollReason : eventNames.unenrollReason,
+  courseId,
+  data: {
+    course_id: courseId,
+    reasons,
+    other,
+    is_entitlement: isEntitlement,
+  },
+});
+
 export const createCreditRequest = ({ providerId, courseId, username }) => post(
   urls.creditRequestUrl(providerId),
   { course_key: courseId, username },
@@ -73,5 +97,6 @@ export default {
   deleteEntitlementEnrollment,
   logEvent,
   logShare,
+  logUnenrollReasons,
   createCreditRequest,
 };

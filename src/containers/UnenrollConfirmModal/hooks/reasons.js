@@ -7,7 +7,7 @@ import {
 import { StrictDict } from 'utils';
 import track from 'tracking';
 
-import { reasonKeys } from '../constants';
+import constants, { reasonKeys } from '../constants';
 
 import * as module from './reasons';
 
@@ -38,6 +38,8 @@ export const useUnenrollReasons = ({
     .filter((reason) => reason !== '');
   const hasReason = submittedReasons.length > 0;
 
+  const logReasons = apiHooks.useLogUnenrollReasons(cardId);
+
   const handleTrackReasons = reduxHooks.useTrackCourseEvent(
     track.engagement.unenrollReason,
     cardId,
@@ -61,6 +63,12 @@ export const useUnenrollReasons = ({
 
   const handleSubmit = (e) => {
     handleTrackReasons(e);
+    logReasons({
+      reasons: selectedReasons
+        .filter((key) => key !== reasonKeys.custom)
+        .map((key) => ({ key, label: constants.messages[key].defaultMessage })),
+      other: selectedReasons.includes(reasonKeys.custom) ? customOption.trim() : '',
+    });
     setIsSubmitted(true);
     unenrollFromCourse();
   };

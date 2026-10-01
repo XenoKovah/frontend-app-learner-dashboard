@@ -138,6 +138,30 @@ describe('lms api methods', () => {
           data: { course_id: courseId, social_media_site: site, location: 'dashboard' },
         }));
       });
+      describe('logUnenrollReasons', () => {
+        const reasons = [{ key: 'time', label: "I don't have the time" }];
+        const other = 'test-other';
+        it.each([
+          [false, eventNames.unenrollReason],
+          [true, eventNames.entitlementUnenrollReason],
+        ])('logs the survey answers (isEntitlement=%s) under %s', (isEntitlement, eventName) => {
+          expect(api.logUnenrollReasons({
+            courseId,
+            reasons,
+            other,
+            isEntitlement,
+          })).toEqual(logEvent({
+            eventName,
+            courseId,
+            data: {
+              course_id: courseId,
+              reasons,
+              other,
+              is_entitlement: isEntitlement,
+            },
+          }));
+        });
+      });
     });
   });
   describe('credit requests', () => {
