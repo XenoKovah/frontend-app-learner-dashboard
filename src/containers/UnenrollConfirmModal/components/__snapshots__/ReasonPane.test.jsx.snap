@@ -3,68 +3,78 @@
 exports[`UnenrollConfirmModal ReasonPane snapshot 1`] = `
 <Fragment>
   <h4>
-    What's your main reason for unenrolling?
+    What are your reasons for unenrolling?
   </h4>
-  <Form.RadioSet
+  <Form.CheckboxSet
     name="unenrollReason"
     onChange={[MockFunction props.reason.selectOption]}
-    value="props.reason.selected"
+    value={
+      [
+        "props.reason.selected",
+      ]
+    }
   >
-    <Form.Radio
+    <Form.Checkbox
+      key="zeroCompletion"
+      value="zeroCompletion"
+    >
+      I needed to unenroll from a 0%-completion class to register for new classes
+    </Form.Checkbox>
+    <Form.Checkbox
       key="prereqs"
       value="prereqs"
     >
       I don't have the academic or language prerequisites
-    </Form.Radio>
-    <Form.Radio
+    </Form.Checkbox>
+    <Form.Checkbox
       key="difficulty"
       value="difficulty"
     >
       The course material was too hard
-    </Form.Radio>
-    <Form.Radio
+    </Form.Checkbox>
+    <Form.Checkbox
       key="goals"
       value="goals"
     >
       This won't help me reach my goals
-    </Form.Radio>
-    <Form.Radio
+    </Form.Checkbox>
+    <Form.Checkbox
       key="broken"
       value="broken"
     >
       Something was broken
-    </Form.Radio>
-    <Form.Radio
+    </Form.Checkbox>
+    <Form.Checkbox
       key="time"
       value="time"
     >
       I don't have the time
-    </Form.Radio>
-    <Form.Radio
+    </Form.Checkbox>
+    <Form.Checkbox
       key="browse"
       value="browse"
     >
       I just wanted to browse the material
-    </Form.Radio>
-    <Form.Radio
+    </Form.Checkbox>
+    <Form.Checkbox
       key="support"
       value="support"
     >
       I don't have enough support
-    </Form.Radio>
-    <Form.Radio
+    </Form.Checkbox>
+    <Form.Checkbox
       key="quality"
       value="quality"
     >
       I am not happy with the quality of the content
-    </Form.Radio>
-    <Form.Radio
+    </Form.Checkbox>
+    <Form.Checkbox
       key="easy"
       value="easy"
     >
       The course material was too easy
-    </Form.Radio>
-    <Form.Radio
+    </Form.Checkbox>
+    <Form.Checkbox
       value="custom"
     >
       <Form.Control
@@ -72,8 +82,8 @@ exports[`UnenrollConfirmModal ReasonPane snapshot 1`] = `
         placeholder="Other"
         value="props.reason.customOption.value"
       />
-    </Form.Radio>
-  </Form.RadioSet>
+    </Form.Checkbox>
+  </Form.CheckboxSet>
   <ActionRow>
     <Button
       onClick={[MockFunction props.reason.handleSkip]}
@@ -94,68 +104,78 @@ exports[`UnenrollConfirmModal ReasonPane snapshot 1`] = `
 exports[`UnenrollConfirmModal ReasonPane snapshot: no reason provided 1`] = `
 <Fragment>
   <h4>
-    What's your main reason for unenrolling?
+    What are your reasons for unenrolling?
   </h4>
-  <Form.RadioSet
+  <Form.CheckboxSet
     name="unenrollReason"
     onChange={[MockFunction props.reason.selectOption]}
-    value="props.reason.selected"
+    value={
+      [
+        "props.reason.selected",
+      ]
+    }
   >
-    <Form.Radio
+    <Form.Checkbox
+      key="zeroCompletion"
+      value="zeroCompletion"
+    >
+      I needed to unenroll from a 0%-completion class to register for new classes
+    </Form.Checkbox>
+    <Form.Checkbox
       key="prereqs"
       value="prereqs"
     >
       I don't have the academic or language prerequisites
-    </Form.Radio>
-    <Form.Radio
+    </Form.Checkbox>
+    <Form.Checkbox
       key="difficulty"
       value="difficulty"
     >
       The course material was too hard
-    </Form.Radio>
-    <Form.Radio
+    </Form.Checkbox>
+    <Form.Checkbox
       key="goals"
       value="goals"
     >
       This won't help me reach my goals
-    </Form.Radio>
-    <Form.Radio
+    </Form.Checkbox>
+    <Form.Checkbox
       key="broken"
       value="broken"
     >
       Something was broken
-    </Form.Radio>
-    <Form.Radio
+    </Form.Checkbox>
+    <Form.Checkbox
       key="time"
       value="time"
     >
       I don't have the time
-    </Form.Radio>
-    <Form.Radio
+    </Form.Checkbox>
+    <Form.Checkbox
       key="browse"
       value="browse"
     >
       I just wanted to browse the material
-    </Form.Radio>
-    <Form.Radio
+    </Form.Checkbox>
+    <Form.Checkbox
       key="support"
       value="support"
     >
       I don't have enough support
-    </Form.Radio>
-    <Form.Radio
+    </Form.Checkbox>
+    <Form.Checkbox
       key="quality"
       value="quality"
     >
       I am not happy with the quality of the content
-    </Form.Radio>
-    <Form.Radio
+    </Form.Checkbox>
+    <Form.Checkbox
       key="easy"
       value="easy"
     >
       The course material was too easy
-    </Form.Radio>
-    <Form.Radio
+    </Form.Checkbox>
+    <Form.Checkbox
       value="custom"
     >
       <Form.Control
@@ -163,8 +183,8 @@ exports[`UnenrollConfirmModal ReasonPane snapshot: no reason provided 1`] = `
         placeholder="Other"
         value="props.reason.customOption.value"
       />
-    </Form.Radio>
-  </Form.RadioSet>
+    </Form.Checkbox>
+  </Form.CheckboxSet>
   <ActionRow>
     <Button
       onClick={[MockFunction props.reason.handleSkip]}

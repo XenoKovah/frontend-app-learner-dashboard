@@ -7,23 +7,23 @@ jest.mock('data/services/segment/utils', () => ({
 }));
 
 const courseId = 'test-course-id';
-const reason = 'test-reason';
+const reasons = ['test-reason', 'other-reason'];
 
 describe('engagement trackers', () => {
   describe('unenrollReason', () => {
     test('creates event tracker for unenrollReason if not entitlement', () => {
-      expect(trackers.unenrollReason(courseId, reason, false)).toEqual(
+      expect(trackers.unenrollReason(courseId, reasons, false)).toEqual(
         createEventTracker(
           eventNames.unenrollReason,
-          { reason, course_id: courseId, ...trackers.engagementOptions },
+          { reasons, course_id: courseId, ...trackers.engagementOptions },
         ),
       );
     });
     test('creates event tracker for entitlementUnenrollReason if entitlement', () => {
-      expect(trackers.unenrollReason(courseId, reason, false)).toEqual(
+      expect(trackers.unenrollReason(courseId, reasons, false)).toEqual(
         createEventTracker(
           eventNames.unenrollReason,
-          { reason, course_id: courseId, ...trackers.engagementOptions },
+          { reasons, course_id: courseId, ...trackers.engagementOptions },
         ),
       );
     });

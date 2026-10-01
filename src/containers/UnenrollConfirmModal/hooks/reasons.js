@@ -3,25 +3,26 @@ import React from 'react';
 import {
   apiHooks,
   reduxHooks,
-  utilHooks,
 } from 'hooks';
 import { StrictDict } from 'utils';
 import track from 'tracking';
+
+import { reasonKeys } from '../constants';
 
 import * as module from './reasons';
 
 export const state = StrictDict({
   customOption: (val) => React.useState(val), // eslint-disable-line
   isSkipped: (val) => React.useState(val), // eslint-disable-line
-  selectedReason: (val) => React.useState(val), // eslint-disable-line
+  selectedReasons: (val) => React.useState(val), // eslint-disable-line
   isSubmitted: (val) => React.useState(val), //eslint-disable-line
 });
 
 export const useUnenrollReasons = ({
   cardId,
 }) => {
-  // The selected option element from the menu
-  const [selectedReason, setSelectedReason] = module.state.selectedReason(null);
+  // The option keys checked in the menu
+  const [selectedReasons, setSelectedReasons] = module.state.selectedReasons([]);
   // Custom option element entry value
   const [customOption, setCustomOption] = module.state.customOption('');
 
@@ -32,20 +33,22 @@ export const useUnenrollReasons = ({
 
   const { isEntitlement } = reduxHooks.useCardEntitlementData(cardId);
 
-  const submittedReason = selectedReason === 'custom' ? customOption : selectedReason;
-  const hasReason = ![null, ''].includes(submittedReason);
+  const submittedReasons = selectedReasons
+    .map((key) => (key === reasonKeys.custom ? customOption.trim() : key))
+    .filter((reason) => reason !== '');
+  const hasReason = submittedReasons.length > 0;
 
   const handleTrackReasons = reduxHooks.useTrackCourseEvent(
     track.engagement.unenrollReason,
     cardId,
-    submittedReason,
+    submittedReasons,
     isEntitlement,
   );
 
   const unenrollFromCourse = apiHooks.useUnenrollFromCourse(cardId);
 
   const handleClear = () => {
-    setSelectedReason(null);
+    setSelectedReasons([]);
     setCustomOption('');
     setIsSkipped(false);
     setIsSubmitted(false);
@@ -62,8 +65,24 @@ export const useUnenrollReasons = ({
     unenrollFromCourse();
   };
 
-  const handleCustomOptionChange = utilHooks.useValueCallback(setCustomOption);
-  const handleSelectOption = utilHooks.useValueCallback(setSelectedReason);
+  const handleSelectOption = (e) => {
+    const { value, checked } = e.target;
+    setSelectedReasons((current) => (
+      checked
+        ? [...current.filter((key) => key !== value), value]
+        : current.filter((key) => key !== value)
+    ));
+  };
+  // Typing in the "Other" box checks its checkbox
+  const handleCustomOptionChange = (e) => {
+    const { value } = e.target;
+    setCustomOption(value);
+    if (value !== '') {
+      setSelectedReasons((current) => (
+        current.includes(reasonKeys.custom) ? current : [...current, reasonKeys.custom]
+      ));
+    }
+  };
 
   return {
     customOption: { value: customOption, onChange: handleCustomOptionChange },
@@ -74,6 +93,7 @@ export const useUnenrollReasons = ({
     isSkipped,
     isSubmitted,
     selectOption: handleSelectOption,
-    submittedReason,
+    selected: selectedReasons,
+    submittedReasons,
   };
 };
