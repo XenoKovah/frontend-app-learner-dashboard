@@ -12,6 +12,7 @@ import constants, { reasonKeys } from '../constants';
 import * as module from './reasons';
 
 export const state = StrictDict({
+  brokenOption: (val) => React.useState(val), // eslint-disable-line
   customOption: (val) => React.useState(val), // eslint-disable-line
   isSkipped: (val) => React.useState(val), // eslint-disable-line
   selectedReasons: (val) => React.useState(val), // eslint-disable-line
@@ -23,6 +24,8 @@ export const useUnenrollReasons = ({
 }) => {
   // The option keys checked in the menu
   const [selectedReasons, setSelectedReasons] = module.state.selectedReasons([]);
+  // "Something was broken" option: a free-text box whose placeholder is the option's label
+  const [brokenOption, setBrokenOption] = module.state.brokenOption('');
   // Custom option element entry value
   const [customOption, setCustomOption] = module.state.customOption('');
 
@@ -33,8 +36,13 @@ export const useUnenrollReasons = ({
 
   const { isEntitlement } = reduxHooks.useCardEntitlementData(cardId);
 
+  const brokenDetails = brokenOption.trim();
   const submittedReasons = selectedReasons
-    .map((key) => (key === reasonKeys.custom ? customOption.trim() : key))
+    .map((key) => {
+      if (key === reasonKeys.custom) { return customOption.trim(); }
+      if (key === reasonKeys.broken && brokenDetails) { return `${key}: ${brokenDetails}`; }
+      return key;
+    })
     .filter((reason) => reason !== '');
   const hasReason = submittedReasons.length > 0;
 
@@ -51,6 +59,7 @@ export const useUnenrollReasons = ({
 
   const handleClear = () => {
     setSelectedReasons([]);
+    setBrokenOption('');
     setCustomOption('');
     setIsSkipped(false);
     setIsSubmitted(false);
@@ -66,7 +75,11 @@ export const useUnenrollReasons = ({
     logReasons({
       reasons: selectedReasons
         .filter((key) => key !== reasonKeys.custom)
-        .map((key) => ({ key, label: constants.messages[key].defaultMessage })),
+        .map((key) => ({
+          key,
+          label: constants.messages[key].defaultMessage,
+          ...(key === reasonKeys.broken && brokenDetails ? { details: brokenDetails } : {}),
+        })),
       other: selectedReasons.includes(reasonKeys.custom) ? customOption.trim() : '',
     });
     setIsSubmitted(true);
@@ -81,18 +94,19 @@ export const useUnenrollReasons = ({
         : current.filter((key) => key !== value)
     ));
   };
-  // Typing in the "Other" box checks its checkbox
-  const handleCustomOptionChange = (e) => {
+  // Typing in a free-text option's box checks its checkbox
+  const checkWhenTyping = (key, setText) => (e) => {
     const { value } = e.target;
-    setCustomOption(value);
+    setText(value);
     if (value !== '') {
-      setSelectedReasons((current) => (
-        current.includes(reasonKeys.custom) ? current : [...current, reasonKeys.custom]
-      ));
+      setSelectedReasons((current) => (current.includes(key) ? current : [...current, key]));
     }
   };
+  const handleBrokenOptionChange = checkWhenTyping(reasonKeys.broken, setBrokenOption);
+  const handleCustomOptionChange = checkWhenTyping(reasonKeys.custom, setCustomOption);
 
   return {
+    brokenOption: { value: brokenOption, onChange: handleBrokenOptionChange },
     customOption: { value: customOption, onChange: handleCustomOptionChange },
     handleClear,
     handleSkip,

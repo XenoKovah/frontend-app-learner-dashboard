@@ -15,11 +15,12 @@ export const reasonKeys = StrictDict({
   custom: 'custom',
 });
 
+// The plain checkbox options, in display order. `broken` and `custom` are free-text options and
+// are rendered after these (broken, then custom) by ReasonPane.
 export const order = [
   reasonKeys.zeroCompletion,
   reasonKeys.time,
   reasonKeys.browse,
-  reasonKeys.broken,
   reasonKeys.easy,
   reasonKeys.difficulty,
   reasonKeys.quality,

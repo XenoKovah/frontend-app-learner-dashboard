@@ -8,6 +8,10 @@ describe('UnenrollConfirmModal ReasonPane', () => {
     reason: {
       handleSkip: jest.fn().mockName('props.reason.handleSkip'),
       selectOption: jest.fn().mockName('props.reason.selectOption'),
+      brokenOption: {
+        value: 'props.reason.brokenOption.value',
+        onChange: jest.fn().mockName('props.reason.brokenOption.onChange'),
+      },
       customOption: {
         value: 'props.reason.customOption.value',
         onChange: jest.fn().mockName('props.reason.customOption.onChange'),

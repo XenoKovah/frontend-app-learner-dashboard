@@ -6,7 +6,6 @@ describe('UnenrollConfirmModal constants', () => {
       'I needed to unenroll from a 0%-completion class to register for new classes',
       "I don't have the time",
       "I just wanted to browse the material (but I didn't know I don't need to enroll to browse, but I do now!)",
-      'Something was broken',
       'The course material was too easy',
       'The course material was too hard',
       "I'm not happy with the quality of the content",
@@ -19,7 +18,13 @@ describe('UnenrollConfirmModal constants', () => {
     order.forEach((key) => expect(constants.messages[key]).toBeDefined());
     expect(order).not.toContain(reasonKeys.custom);
   });
-  it('has a key for every ordered option and nothing else', () => {
-    expect(Object.keys(reasonKeys).sort()).toEqual([...order, reasonKeys.custom].sort());
+  it('has a key for every ordered option plus the two free-text options, and nothing else', () => {
+    expect(Object.keys(reasonKeys).sort()).toEqual(
+      [...order, reasonKeys.broken, reasonKeys.custom].sort(),
+    );
+  });
+  it('keeps the free-text options out of the plain list; broken keeps its label for the placeholder', () => {
+    expect(order).not.toContain(reasonKeys.broken);
+    expect(constants.messages[reasonKeys.broken].defaultMessage).toEqual('Something was broken');
   });
 });

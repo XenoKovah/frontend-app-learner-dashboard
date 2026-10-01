@@ -37,6 +37,7 @@ const loadHook = (isEntitlement = false) => {
 
 describe('UnenrollConfirmModal reasons hooks', () => {
   describe('state fields', () => {
+    state.testGetter(state.keys.brokenOption);
     state.testGetter(state.keys.customOption);
     state.testGetter(state.keys.isSkipped);
     state.testGetter(state.keys.isSubmitted);
@@ -55,6 +56,9 @@ describe('UnenrollConfirmModal reasons hooks', () => {
       describe('state fields', () => {
         it('initializes selectedReasons with an empty array', () => {
           state.expectInitializedWith(state.keys.selectedReasons, []);
+        });
+        it('initializes brokenOption with empty string', () => {
+          state.expectInitializedWith(state.keys.brokenOption, '');
         });
         it('initializes customOption with empty string', () => {
           state.expectInitializedWith(state.keys.customOption, '');
@@ -89,6 +93,38 @@ describe('UnenrollConfirmModal reasons hooks', () => {
             true, // isEntitlement
           );
         });
+        it('passes the broken key alone when it is checked without details', () => {
+          state.mockVal(state.keys.selectedReasons, ['broken']);
+          loadHook();
+          expect(reduxHooks.useTrackCourseEvent).toHaveBeenCalledWith(
+            track.engagement.unenrollReason,
+            cardId,
+            ['broken'],
+            false, // isEntitlement
+          );
+        });
+        it('passes the broken details, trimmed, alongside the broken key', () => {
+          state.mockVal(state.keys.selectedReasons, ['broken']);
+          state.mockVal(state.keys.brokenOption, ` ${testValue} `);
+          loadHook();
+          expect(reduxHooks.useTrackCourseEvent).toHaveBeenCalledWith(
+            track.engagement.unenrollReason,
+            cardId,
+            [`broken: ${testValue}`],
+            false, // isEntitlement
+          );
+        });
+        it('ignores broken details when the broken option is not checked', () => {
+          state.mockVal(state.keys.selectedReasons, ['time']);
+          state.mockVal(state.keys.brokenOption, testValue);
+          loadHook();
+          expect(reduxHooks.useTrackCourseEvent).toHaveBeenCalledWith(
+            track.engagement.unenrollReason,
+            cardId,
+            ['time'],
+            false, // isEntitlement
+          );
+        });
         it('drops the custom reason when its text is blank', () => {
           state.mockVal(state.keys.selectedReasons, ['time', 'custom']);
           state.mockVal(state.keys.customOption, '   ');
@@ -109,6 +145,26 @@ describe('UnenrollConfirmModal reasons hooks', () => {
       });
     });
     describe('output', () => {
+      describe('brokenOption', () => {
+        const applyUpdater = (updater, current) => updater(current);
+        test('brokenOption.value returns the broken details', () => {
+          state.mockVal(state.keys.brokenOption, testValue);
+          loadHook();
+          expect(out.brokenOption.value).toEqual(testValue);
+        });
+        it('sets the details and checks the broken box when text is entered', () => {
+          out.brokenOption.onChange({ target: { value: testValue } });
+          expect(state.setState.brokenOption).toHaveBeenCalledWith(testValue);
+          const updater = state.setState.selectedReasons.mock.calls[0][0];
+          expect(applyUpdater(updater, ['time'])).toEqual(['time', 'broken']);
+          expect(applyUpdater(updater, ['broken', 'time'])).toEqual(['broken', 'time']);
+        });
+        it('does not touch the selected reasons when the text is cleared', () => {
+          out.brokenOption.onChange({ target: { value: '' } });
+          expect(state.setState.brokenOption).toHaveBeenCalledWith('');
+          expect(state.setState.selectedReasons).not.toHaveBeenCalled();
+        });
+      });
       describe('customOption', () => {
         test('customOption.value returns custom option', () => {
           state.mockVal(state.keys.customOption, testValue);
@@ -148,6 +204,12 @@ describe('UnenrollConfirmModal reasons hooks', () => {
           loadHook();
           expect(out.hasReason).toEqual(true);
         });
+        it('returns true if broken is checked even without details', () => {
+          state.mockVal(state.keys.selectedReasons, ['broken']);
+          state.mockVal(state.keys.brokenOption, '');
+          loadHook();
+          expect(out.hasReason).toEqual(true);
+        });
         it('returns false if no option is selected', () => {
           state.mockVal(state.keys.selectedReasons, []);
           loadHook();
@@ -164,6 +226,7 @@ describe('UnenrollConfirmModal reasons hooks', () => {
         it('resets selected and submitted reasons, custom option and isSkipped', () => {
           out.handleClear();
           expect(state.setState.selectedReasons).toHaveBeenCalledWith([]);
+          expect(state.setState.brokenOption).toHaveBeenCalledWith('');
           expect(state.setState.customOption).toHaveBeenCalledWith('');
           expect(state.setState.isSkipped).toHaveBeenCalledWith(false);
           expect(state.setState.isSubmitted).toHaveBeenCalledWith(false);
@@ -190,6 +253,29 @@ describe('UnenrollConfirmModal reasons hooks', () => {
               },
             ],
             other: testValue,
+          });
+        });
+        it('logs the broken details on the broken entry', () => {
+          state.mockVal(state.keys.selectedReasons, ['broken', 'time']);
+          state.mockVal(state.keys.brokenOption, ` ${testValue} `);
+          loadHook();
+          out.handleSubmit({});
+          expect(logReasons).toHaveBeenCalledWith({
+            reasons: [
+              { key: 'broken', label: 'Something was broken', details: testValue },
+              { key: 'time', label: "I don't have the time" },
+            ],
+            other: '',
+          });
+        });
+        it('omits the broken details when they are blank', () => {
+          state.mockVal(state.keys.selectedReasons, ['broken']);
+          state.mockVal(state.keys.brokenOption, '  ');
+          loadHook();
+          out.handleSubmit({});
+          expect(logReasons).toHaveBeenCalledWith({
+            reasons: [{ key: 'broken', label: 'Something was broken' }],
+            other: '',
           });
         });
         it('logs an empty other text when the custom option is not checked', () => {

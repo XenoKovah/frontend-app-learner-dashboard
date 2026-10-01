@@ -29,6 +29,12 @@ export const ReasonPane = ({
         value={reason.selected}
       >
         {constants.order.map(option)}
+        <Form.Checkbox value={constants.reasonKeys.broken}>
+          <Form.Control
+            {...reason.brokenOption}
+            placeholder={formatMessage(constants.messages[constants.reasonKeys.broken])}
+          />
+        </Form.Checkbox>
         <Form.Checkbox value={constants.reasonKeys.custom}>
           <Form.Control
             {...reason.customOption}
@@ -53,6 +59,10 @@ ReasonPane.propTypes = {
     handleSkip: PropTypes.func,
     hasReason: PropTypes.bool,
     selectOption: PropTypes.func,
+    brokenOption: PropTypes.shape({
+      value: PropTypes.string,
+      onChange: PropTypes.func,
+    }),
     customOption: PropTypes.shape({
       value: PropTypes.string,
       onChange: PropTypes.func,

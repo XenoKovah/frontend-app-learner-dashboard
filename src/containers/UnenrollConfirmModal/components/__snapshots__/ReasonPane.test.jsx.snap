@@ -33,12 +33,6 @@ exports[`UnenrollConfirmModal ReasonPane snapshot 1`] = `
       I just wanted to browse the material (but I didn't know I don't need to enroll to browse, but I do now!)
     </Form.Checkbox>
     <Form.Checkbox
-      key="broken"
-      value="broken"
-    >
-      Something was broken
-    </Form.Checkbox>
-    <Form.Checkbox
       key="easy"
       value="easy"
     >
@@ -67,6 +61,15 @@ exports[`UnenrollConfirmModal ReasonPane snapshot 1`] = `
       value="support"
     >
       I don't have enough support
+    </Form.Checkbox>
+    <Form.Checkbox
+      value="broken"
+    >
+      <Form.Control
+        onChange={[MockFunction props.reason.brokenOption.onChange]}
+        placeholder="Something was broken"
+        value="props.reason.brokenOption.value"
+      />
     </Form.Checkbox>
     <Form.Checkbox
       value="custom"
@@ -128,12 +131,6 @@ exports[`UnenrollConfirmModal ReasonPane snapshot: no reason provided 1`] = `
       I just wanted to browse the material (but I didn't know I don't need to enroll to browse, but I do now!)
     </Form.Checkbox>
     <Form.Checkbox
-      key="broken"
-      value="broken"
-    >
-      Something was broken
-    </Form.Checkbox>
-    <Form.Checkbox
       key="easy"
       value="easy"
     >
@@ -162,6 +159,15 @@ exports[`UnenrollConfirmModal ReasonPane snapshot: no reason provided 1`] = `
       value="support"
     >
       I don't have enough support
+    </Form.Checkbox>
+    <Form.Checkbox
+      value="broken"
+    >
+      <Form.Control
+        onChange={[MockFunction props.reason.brokenOption.onChange]}
+        placeholder="Something was broken"
+        value="props.reason.brokenOption.value"
+      />
     </Form.Checkbox>
     <Form.Checkbox
       value="custom"
