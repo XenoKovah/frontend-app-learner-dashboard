@@ -4,7 +4,6 @@ import { AppContext } from '@edx/frontend-platform/react';
 import { logError } from '@edx/frontend-platform/logging';
 
 import { RequestKeys } from 'data/constants/requests';
-import { post } from 'data/services/lms/utils';
 import api from 'data/services/lms/api';
 
 import * as reduxHooks from 'data/redux/hooks';
@@ -108,11 +107,6 @@ export const useUpdateEmailSettings = (cardId) => {
     (enable) => api.updateEmailSettings({ courseId, enable }),
     { requestKey: RequestKeys.updateEmailSettings },
   );
-};
-
-export const useSendConfirmEmail = () => {
-  const { sendEmailUrl } = reduxHooks.useEmailConfirmationData();
-  return () => post(sendEmailUrl);
 };
 
 export const useCreateCreditRequest = (cardId) => {

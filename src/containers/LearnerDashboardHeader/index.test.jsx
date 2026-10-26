@@ -18,7 +18,6 @@ jest.mock('./hooks', () => ({
   findCoursesNavClicked: jest.fn(),
 }));
 jest.mock('containers/MasqueradeBar', () => 'MasqueradeBar');
-jest.mock('./ConfirmEmailBanner', () => 'ConfirmEmailBanner');
 jest.mock('@edx/frontend-component-header', () => 'Header');
 
 describe('LearnerDashboardHeader', () => {
@@ -26,7 +25,6 @@ describe('LearnerDashboardHeader', () => {
     mergeConfig({ ORDER_HISTORY_URL: 'test-url' });
     const wrapper = shallow(<LearnerDashboardHeader />);
     expect(wrapper.snapshot).toMatchSnapshot();
-    expect(wrapper.instance.findByType('ConfirmEmailBanner')).toHaveLength(1);
     expect(wrapper.instance.findByType('MasqueradeBar')).toHaveLength(1);
     expect(wrapper.instance.findByType(Header)).toHaveLength(1);
     wrapper.instance.findByType(Header)[0].props.mainMenuItems[1].onClick();

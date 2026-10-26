@@ -3,7 +3,6 @@ import { AppContext } from '@edx/frontend-platform/react';
 import { logError } from '@edx/frontend-platform/logging';
 import { keyStore } from 'utils';
 import { RequestKeys } from 'data/constants/requests';
-import { post } from 'data/services/lms/utils';
 import api from 'data/services/lms/api';
 
 import * as reduxHooks from 'data/redux/hooks';
@@ -13,9 +12,6 @@ const reduxKeys = keyStore(reduxHooks);
 
 jest.mock('@edx/frontend-platform/logging', () => ({
   logError: jest.fn(),
-}));
-jest.mock('data/services/lms/utils', () => ({
-  post: jest.fn((...args) => ({ post: args })),
 }));
 jest.mock('data/services/lms/api', () => ({
   initializeList: jest.fn(),
@@ -33,7 +29,6 @@ jest.mock('data/redux/hooks', () => ({
   useLoadData: jest.fn(),
   useMakeNetworkRequest: jest.fn(),
   useClearRequest: jest.fn(),
-  useEmailConfirmationData: jest.fn(),
 }));
 
 const moduleKeys = keyStore(apiHooks);
@@ -54,7 +49,6 @@ reduxHooks.useCardCourseRunData.mockReturnValue({ courseId });
 reduxHooks.useCardEntitlementData.mockReturnValue({ uuid, isRefundable });
 
 let hook;
-let out;
 
 const testInitCardHook = (hookKey) => {
   test(`initializes ${hookKey} with cardId`, () => {
@@ -261,21 +255,6 @@ describe('api hooks', () => {
       });
     });
 
-    describe('useSendConfirmEmail', () => {
-      const sendEmailUrl = 'test-send-email-url';
-      beforeEach(() => {
-        reduxHooks.useEmailConfirmationData.mockReturnValue({ sendEmailUrl });
-        hook = apiHooks.useSendConfirmEmail(cardId);
-        out = hook();
-      });
-      it('initializes useEmailConfirmationData hook', () => {
-        expect(reduxHooks.useEmailConfirmationData).toHaveBeenCalledWith();
-      });
-      it('posts to email url on call', () => {
-        expect(out).toEqual(post(sendEmailUrl));
-      });
-    });
-
     describe('useCreateCreditRequest', () => {
       const username = 'test-username';
       const providerId = 'test-provider-id';
@@ -290,7 +269,7 @@ describe('api hooks', () => {
         expect(React.useContext).toHaveBeenCalledWith(AppContext);
       });
       it('calls createCreditRequest api method on call', () => {
-        out = hook();
+        hook();
         expect(api.createCreditRequest).toHaveBeenCalledWith({
           providerId,
           courseId,
