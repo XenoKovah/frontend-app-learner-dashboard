@@ -19,7 +19,7 @@ export const CertificateBanner = ({ cardId }) => {
     isAudit,
     isVerified,
   } = reduxHooks.useCardEnrollmentData(cardId);
-  const { isPassing, percentGraded } = reduxHooks.useCardGradeData(cardId);
+  const { isPassing, percentGraded, hasGradedContent } = reduxHooks.useCardGradeData(cardId);
   const { isArchived } = reduxHooks.useCardCourseRunData(cardId);
   const { minPassingGrade, progressUrl } = reduxHooks.useCardCourseRunData(cardId);
   const { supportEmail, billingEmail } = reduxHooks.usePlatformSettingsData();
@@ -53,6 +53,10 @@ export const CertificateBanner = ({ cardId }) => {
     );
   }
   if (!isPassing) {
+    // Setup courses grade nothing, so a passing grade can never be reached; don't show one.
+    if (!hasGradedContent) {
+      return null;
+    }
     if (isAudit) {
       return (
         <Banner>

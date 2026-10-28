@@ -135,6 +135,8 @@ export const courseCard = StrictDict({
     (gradeData) => ({
       isPassing: gradeData.isPassing,
       percentGraded: Math.floor((gradeData.percentGraded || 0) * 100),
+      // false only when the LMS reports nothing in the course counts toward its grade
+      hasGradedContent: gradeData.hasGradedContent !== false,
     }),
   ),
   relatedPrograms: mkCardSelector(

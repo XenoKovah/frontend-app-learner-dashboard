@@ -37,7 +37,7 @@ describe('CertificateBanner', () => {
     isVerified: false,
   };
   const defaultCourseRun = { isArchived: false };
-  const defaultGrade = { isPassing: false, percentGraded: 42 };
+  const defaultGrade = { isPassing: false, percentGraded: 42, hasGradedContent: true };
   const defaultPlatformSettings = {};
   const createWrapper = ({
     certificate = {},
@@ -189,6 +189,24 @@ describe('CertificateBanner', () => {
         },
       });
       expect(wrapper.snapshot).toMatchSnapshot();
+    });
+  });
+  describe('course with no graded content', () => {
+    const ungraded = { isPassing: false, hasGradedContent: false };
+    it.each([
+      ['audit', { enrollment: { isAudit: true } }],
+      ['finished', { courseRun: { isArchived: true } }],
+      ['not audit and not finished', {}],
+    ])('shows no grade banner when %s', (_, args) => {
+      const wrapper = createWrapper({ ...args, grade: ungraded });
+      expect(wrapper.snapshot).toEqual(null);
+    });
+    it('still shows a downloadable certificate, same as a graded course', () => {
+      const certificate = { isDownloadable: true };
+      const ungradedWrapper = createWrapper({ grade: ungraded, certificate });
+      const gradedWrapper = createWrapper({ grade: { isPassing: false }, certificate });
+      expect(ungradedWrapper.snapshot).not.toEqual(null);
+      expect(ungradedWrapper.snapshot).toEqual(gradedWrapper.snapshot);
     });
   });
   describe('behavior', () => {

@@ -361,6 +361,16 @@ describe('courseCard selectors module', () => {
           expect(selected.percentGraded).toEqual(percent);
         });
       });
+      describe('hasGradedContent', () => {
+        it.each([
+          [true, true],
+          [false, false],
+          [undefined, true],
+        ])('maps the LMS value %s to %s', (value, expected) => {
+          loadSelector(courseCard.gradeData, { isPassing: false, hasGradedContent: value });
+          expect(selected.hasGradedContent).toEqual(expected);
+        });
+      });
     });
     describe('relatedPrograms selector', () => {
       beforeEach(() => {
