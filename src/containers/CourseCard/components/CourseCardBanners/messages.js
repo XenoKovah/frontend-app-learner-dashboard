@@ -54,12 +54,12 @@ const messages = defineMessages({
   certReady: {
     id: 'learner-dash.courseCard.banners.certReady',
     description: 'Certificate ready message',
-    defaultMessage: 'Congratulations.  Your certificate is ready.',
+    defaultMessage: 'Congratulations on finishing the class! Your course completion certificate is ready:',
   },
   viewCertificate: {
     id: 'learner-dash.courseCard.banners.viewCertificate',
     description: 'Certificate link text',
-    defaultMessage: 'View Certificate.',
+    defaultMessage: 'view completion certificate.',
   },
   certMinGrade: {
     id: 'learner-dash.courseCard.banners.certMinGrade',

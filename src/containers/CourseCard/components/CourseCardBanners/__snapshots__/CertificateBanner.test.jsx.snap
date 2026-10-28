@@ -11,7 +11,25 @@ exports[`CertificateBanner snapshot is passing and is downloadable 1`] = `
   icon={[MockFunction icons.CheckCircle]}
   variant="success"
 >
-  Congratulations.  Your certificate is ready.
+  Congratulations on finishing the class! Your course completion certificate is ready:
+</Banner>
+`;
+
+exports[`CertificateBanner snapshot is passing and is downloadable with a certificate link 1`] = `
+<Banner
+  icon={[MockFunction icons.CheckCircle]}
+  variant="success"
+>
+  Congratulations on finishing the class! Your course completion certificate is ready:
+  <Fragment>
+      
+    <Hyperlink
+      destination="certPreviewUrl"
+      isInline={true}
+    >
+      view completion certificate.
+    </Hyperlink>
+  </Fragment>
 </Banner>
 `;
 
@@ -198,7 +216,7 @@ exports[`CertificateBanner snapshot not passing and is downloadable 1`] = `
   icon={[MockFunction icons.CheckCircle]}
   variant="success"
 >
-  Congratulations.  Your certificate is ready.
+  Congratulations on finishing the class! Your course completion certificate is ready:
 </Banner>
 `;
 

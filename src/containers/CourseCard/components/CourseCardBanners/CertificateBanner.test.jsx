@@ -146,6 +146,13 @@ describe('CertificateBanner', () => {
       });
       expect(wrapper.snapshot).toMatchSnapshot();
     });
+    test('is passing and is downloadable with a certificate link', () => {
+      const wrapper = createWrapper({
+        grade: { isPassing: true },
+        certificate: { isDownloadable: true, certPreviewUrl: 'certPreviewUrl' },
+      });
+      expect(wrapper.snapshot).toMatchSnapshot();
+    });
     test('not passing and is downloadable', () => {
       const wrapper = createWrapper({
         grade: { isPassing: false },
