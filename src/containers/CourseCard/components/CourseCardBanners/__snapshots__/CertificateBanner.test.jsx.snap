@@ -1,5 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`CertificateBanner course with no graded content shows the passing grade as N/A (ungraded) 1`] = `
+<Banner>
+  Grade required to pass the course: N/A (ungraded)
+</Banner>
+`;
+
 exports[`CertificateBanner snapshot is passing and is downloadable 1`] = `
 <Banner
   icon={[MockFunction icons.CheckCircle]}

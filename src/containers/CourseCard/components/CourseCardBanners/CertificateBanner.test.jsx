@@ -193,13 +193,17 @@ describe('CertificateBanner', () => {
   });
   describe('course with no graded content', () => {
     const ungraded = { isPassing: false, hasGradedContent: false };
+    test('shows the passing grade as N/A (ungraded)', () => {
+      const wrapper = createWrapper({ enrollment: { isAudit: true }, grade: ungraded });
+      expect(wrapper.snapshot).toMatchSnapshot();
+    });
     it.each([
-      ['audit', { enrollment: { isAudit: true } }],
       ['finished', { courseRun: { isArchived: true } }],
       ['not audit and not finished', {}],
-    ])('shows no grade banner when %s', (_, args) => {
+    ])('shows the same N/A line when %s', (_, args) => {
+      const auditWrapper = createWrapper({ enrollment: { isAudit: true }, grade: ungraded });
       const wrapper = createWrapper({ ...args, grade: ungraded });
-      expect(wrapper.snapshot).toEqual(null);
+      expect(wrapper.snapshot).toEqual(auditWrapper.snapshot);
     });
     it('still shows a downloadable certificate, same as a graded course', () => {
       const certificate = { isDownloadable: true };

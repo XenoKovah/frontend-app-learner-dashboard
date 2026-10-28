@@ -53,9 +53,13 @@ export const CertificateBanner = ({ cardId }) => {
     );
   }
   if (!isPassing) {
-    // Setup courses grade nothing, so a passing grade can never be reached; don't show one.
+    // Setup courses grade nothing, so there's no passing grade or current grade to show.
     if (!hasGradedContent) {
-      return null;
+      return (
+        <Banner>
+          {formatMessage(messages.passingGradeUngraded)}
+        </Banner>
+      );
     }
     if (isAudit) {
       return (

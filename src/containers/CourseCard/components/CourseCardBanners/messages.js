@@ -36,6 +36,11 @@ const messages = defineMessages({
     description: 'Message to learners with minimum passing grade for the course and their current grade',
     defaultMessage: 'Grade required to pass the course: {minPassingGrade}\u200f%. Current grade: {currentGrade}\u200f%',
   },
+  passingGradeUngraded: {
+    id: 'learner-dash.courseCard.banners.passingGradeUngraded',
+    description: 'Shown in place of the passing and current grade on a course where nothing counts toward the grade',
+    defaultMessage: 'Grade required to pass the course: N/A (ungraded)',
+  },
   notEligibleForCert: {
     id: 'learner-dash.courseCard.banners.notEligibleForCert',
     description: 'Certificate inelligibility message',
