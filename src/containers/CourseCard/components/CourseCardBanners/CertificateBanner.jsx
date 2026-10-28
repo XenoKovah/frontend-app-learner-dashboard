@@ -64,7 +64,13 @@ export const CertificateBanner = ({ cardId }) => {
     if (isAudit) {
       return (
         <Banner>
-          {formatMessage(messages.passingGrade, { minPassingGrade, currentGrade: percentGraded })}
+          {formatMessage(messages.passingGrade, {
+            minPassingGrade,
+            currentGrade: percentGraded,
+            progressLink: (
+              <Hyperlink isInline destination={progressUrl}>{formatMessage(messages.viewProgressPage)}</Hyperlink>
+            ),
+          })}
         </Banner>
       );
     }

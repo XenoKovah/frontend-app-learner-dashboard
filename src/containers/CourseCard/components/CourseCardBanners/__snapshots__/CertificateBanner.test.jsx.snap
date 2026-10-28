@@ -192,7 +192,27 @@ exports[`CertificateBanner snapshot is restricted with support email 1`] = `
 
 exports[`CertificateBanner snapshot not passing and audit 1`] = `
 <Banner>
-  Grade required to pass the course: 0.8‏%. Current grade: 42‏%
+  <format-message-function
+    message={
+      {
+        "defaultMessage": "Grade required to pass the course: {minPassingGrade}‏%. Current grade: {currentGrade}‏%. {progressLink} to see remaining material.",
+        "description": "Message to learners with minimum passing grade for the course and their current grade",
+        "id": "learner-dash.courseCard.banners.passingGrade",
+      }
+    }
+    values={
+      {
+        "currentGrade": 42,
+        "minPassingGrade": 0.8,
+        "progressLink": <Hyperlink
+          destination="progressUrl"
+          isInline={true}
+        >
+          View Progress page
+        </Hyperlink>,
+      }
+    }
+  />
 </Banner>
 `;
 

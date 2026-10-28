@@ -34,7 +34,12 @@ const messages = defineMessages({
   passingGrade: {
     id: 'learner-dash.courseCard.banners.passingGrade',
     description: 'Message to learners with minimum passing grade for the course and their current grade',
-    defaultMessage: 'Grade required to pass the course: {minPassingGrade}\u200f%. Current grade: {currentGrade}\u200f%',
+    defaultMessage: 'Grade required to pass the course: {minPassingGrade}\u200f%. Current grade: {currentGrade}\u200f%. {progressLink} to see remaining material.',
+  },
+  viewProgressPage: {
+    id: 'learner-dash.courseCard.banners.viewProgressPage',
+    description: 'Link text to the course Progress page, inside the passing grade message',
+    defaultMessage: 'View Progress page',
   },
   passingGradeUngraded: {
     id: 'learner-dash.courseCard.banners.passingGradeUngraded',
